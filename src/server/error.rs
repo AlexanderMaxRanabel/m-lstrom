@@ -21,7 +21,7 @@ impl MatrixError {
         Self::new(
             StatusCode::INTERNAL_SERVER_ERROR,
             ErrorCode::UNKNOWN,
-            "Internal server error.",
+            "Internal server error. RETRY",
         )
     }
 }
