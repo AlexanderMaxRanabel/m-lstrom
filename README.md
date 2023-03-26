@@ -1,3 +1,6 @@
+# M-lstorm is a continuon of matrix homeserver software maelstorm
+# Why? Currently as 26.03.2023(DD/MM/YYYY) original maelstorm repo didnnt merged a pull request since August of 2020.
+
 # Maelstrom ![](https://github.com/maelstrom-rs/maelstrom/workflows/Build/badge.svg)
 
 <img src="./.github/logo-banner.svg">
