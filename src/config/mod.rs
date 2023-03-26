@@ -50,7 +50,7 @@ impl TryInto<Config> for RawConfig {
 
     fn try_into(self) -> Result<Config, anyhow::Error> {
         let jwt_config = JwtConfig::new(&self.hostname, self.auth_key_file.as_path())
-            .with_context(|| "Could not load JWT configuration")?;
+            .with_context(|| "Could not load JWT configuration. Retry")?;
 
         Ok(Config {
             server_addr: self.server_addr,
