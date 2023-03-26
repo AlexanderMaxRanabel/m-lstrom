@@ -18,18 +18,19 @@ This is a brand new project under **daily** active development. It is not curren
 You can review the [Closed `matrix-spec` Issues](https://github.com/maelstrom-rs/maelstrom/issues?q=is%3Aissue+is%3Aclosed+sort%3Acreated-asc+label%3Amatrix-spec+) in the issue tracker for a list of completed features.
 
 ## Project Goals
-
-1. Performance, both in terms of scale and minimal resources.
-2. From scratch design, no legacy architecture decisions.
+0. !! = priority ?? = Not important right now.
+1. Performance, both in terms of scale and minimal resources. !!
+2. From scratch design, no legacy architecture decisions. 
 3. Support for embedded (Raspi, Jetson Nano, etc.) or clustered deployment with configurable storage engine (e.g. Postgres, Sqlite, Sled, etc.).
-4. First-class e2e encryption and p2p support (as Matrix.org works towards a direction).
-5. Designed for not only chat, but decentralized IoT use cases as well.
-6. SOCKS5 Proxy support to enable .onion homeservers ([Relevant Synapse Issue](https://github.com/matrix-org/synapse/issues/7088))
+4. First-class e2e encryption and p2p support (as Matrix.org works towards a direction). !!
+5. SOCKS5 Proxy support to enable .onion homeservers ([Relevant Synapse Issue](https://github.com/matrix-org/synapse/issues/7088)) !!(<3 Tor)
+6. A simple setup proccess.
+7. First class support for self hosting at any operating system(Linux, Windows, MacOSX)
 
 ## Why
 
-This project started due to a strong interest/support of Web 3.0 (decentralized web applications). Additionally,
-having a performant embeddable home server can enable a stronger usecase for decentralized IoT applications in addition to chat.
+I forked this project as a fork of original maelstorm because original one looks dead.
+Also i think this project might be a good alternative to conduit.
 
 ## Building & Running
 
