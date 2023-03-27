@@ -32,7 +32,7 @@ pub async fn get_available<T: Store>(
         Err(MatrixError::new(
             http::StatusCode::BAD_REQUEST,
             ErrorCode::INVALID_USERNAME,
-            "The desired username is not a valid user name.",
+            "The desired username is not a valid user name. A - Z 0 - 9 Symbols No Unicode",
         ))?
     }
 
