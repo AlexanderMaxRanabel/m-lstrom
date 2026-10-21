@@ -28,6 +28,10 @@ complement-results.json
 # Claude Code
 .claude/
 
+# Extracted upstream references (archives in vendor/ are tracked, checkouts are not)
+vendor/matrix-spec-*/
+vendor/complement-main/
+
 # Product spec (internal)
 maelstrom-product-spec.md
 history.txt

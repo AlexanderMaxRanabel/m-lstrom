@@ -4,6 +4,7 @@
        cluster-up cluster-down cluster-logs cluster-reset \
        db-init db-drop db-shell \
        complement complement-list complement-build \
+       compliance-vendor compliance-extract compliance-diff \
        run
 
 # -- Config (override with env vars or .env) -----------------------------
@@ -121,6 +122,29 @@ complement-list: ## List available Complement tests
 
 complement-build: ## Build only the Complement Docker image (no test run)
 	docker build -t complement-maelstrom -f Dockerfile.complement .
+
+# -- Compliance tooling (Matrix spec endpoint coverage) -------------------
+# The vendored archives in vendor/ make this work without network access.
+VENDOR_DIR   := vendor
+SPEC_DIR     := $(VENDOR_DIR)/matrix-spec-1.19
+COMPLEMENT_DIR ?= $(VENDOR_DIR)/complement-main
+
+compliance-vendor: ## Extract the vendored matrix-spec v1.19 + Complement archives
+	@mkdir -p $(VENDOR_DIR)
+	@test -d $(SPEC_DIR) || tar xzf $(VENDOR_DIR)/matrix-spec-v1.19.tar.gz -C $(VENDOR_DIR)
+	@test -d $(COMPLEMENT_DIR) || tar xzf $(VENDOR_DIR)/complement-main.tar.gz -C $(VENDOR_DIR)
+	@echo "vendored: $(SPEC_DIR)  $(COMPLEMENT_DIR)"
+
+compliance-extract: ## Regenerate docs/compliance/endpoints-v1.19.json from the vendored spec
+	@$(MAKE) --no-print-directory compliance-vendor
+	python3 docs/compliance/extract_spec_endpoints.py --spec $(SPEC_DIR) \
+		--out docs/compliance/endpoints-v1.19.json
+
+compliance-diff: ## Report stable Matrix endpoint coverage (G1 gate)
+	@$(MAKE) --no-print-directory compliance-extract
+	python3 docs/compliance/diff_routes.py --endpoints docs/compliance/endpoints-v1.19.json \
+		--out docs/compliance/endpoint-gap-v1.19.txt
+	@grep -E "^spec .* endpoints:" docs/compliance/endpoint-gap-v1.19.txt
 
 # -- Shortcuts -----------------------------------------------------------
 dev: dev-up ## Alias for dev-up

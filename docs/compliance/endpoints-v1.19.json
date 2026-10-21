@@ -1,0 +1,2352 @@
+[
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "account-data.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/user/{userId}/account_data/{type}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Set some account data for the user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "account-data.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/user/{userId}/account_data/{type}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get some account data for the user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "account-data.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/user/{userId}/rooms/{roomId}/account_data/{type}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Set some account data for the user that is specific to a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "account-data.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/user/{userId}/rooms/{roomId}/account_data/{type}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get some account data for the user that is specific to a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "account_deactivation.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/deactivate",
+  "added": "1.10",
+  "deprecated": false,
+  "summary": "Deactivate a user's account."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "admin.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/admin/whois/{userId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets information about a particular user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "admin.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/admin/suspend/{userId}",
+  "added": "1.18",
+  "deprecated": false,
+  "summary": "Gets information about the suspended status of a particular user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "admin.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v1/admin/suspend/{userId}",
+  "added": "1.18",
+  "deprecated": false,
+  "summary": "Set the suspended status of a particular user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "admin.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/admin/lock/{userId}",
+  "added": "1.18",
+  "deprecated": false,
+  "summary": "Gets information about the locked status of a particular user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "admin.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v1/admin/lock/{userId}",
+  "added": "1.18",
+  "deprecated": false,
+  "summary": "Set the locked status of a particular user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/account/3pid",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets a list of a user's third-party identifiers."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/3pid",
+  "added": "",
+  "deprecated": true,
+  "summary": "Adds contact information to the user's account."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/3pid/add",
+  "added": "",
+  "deprecated": false,
+  "summary": "Adds contact information to the user's account."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/3pid/bind",
+  "added": "",
+  "deprecated": false,
+  "summary": "Binds a 3PID to the user's account through an Identity Service."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/3pid/delete",
+  "added": "",
+  "deprecated": false,
+  "summary": "Deletes a third-party identifier from the user's account"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/3pid/unbind",
+  "added": "",
+  "deprecated": false,
+  "summary": "Removes a user's third-party identifier from an identity server."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/3pid/email/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Begins the validation process for an email address for association with"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "administrative_contact.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/3pid/msisdn/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Begins the validation process for a phone number for association with"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "appservice_ping.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v1/appservice/{appserviceId}/ping",
+  "added": "1.7",
+  "deprecated": false,
+  "summary": "Ask the homeserver to ping the application service to ensure the"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "appservice_room_directory.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/directory/list/appservice/{networkId}/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "|-"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "authed-content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/media/download/{serverName}/{mediaId}",
+  "added": "1.11",
+  "deprecated": false,
+  "summary": "Download content from the content repository."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "authed-content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/media/download/{serverName}/{mediaId}/{fileName}",
+  "added": "1.11",
+  "deprecated": false,
+  "summary": "Download content from the content repository overriding the file name."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "authed-content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/media/thumbnail/{serverName}/{mediaId}",
+  "added": "1.11",
+  "deprecated": false,
+  "summary": "Download a thumbnail of content from the content repository"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "authed-content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/media/preview_url",
+  "added": "1.11",
+  "deprecated": false,
+  "summary": "Get information about a URL for a client"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "authed-content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/media/config",
+  "added": "1.11",
+  "deprecated": false,
+  "summary": "Get the configuration for the content repository."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "banning.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/ban",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Ban a user in the room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "banning.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/unban",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Unban a user from the room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "capabilities.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/capabilities",
+  "added": "1.18",
+  "deprecated": true,
+  "summary": "Gets information about the server's capabilities."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "POST",
+  "path": "/_matrix/media/v3/upload",
+  "added": "",
+  "deprecated": false,
+  "summary": "Upload some content to the content repository."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "PUT",
+  "path": "/_matrix/media/v3/upload/{serverName}/{mediaId}",
+  "added": "1.7",
+  "deprecated": false,
+  "summary": "Upload content to an `mxc://` URI that was created earlier."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "POST",
+  "path": "/_matrix/media/v1/create",
+  "added": "1.7",
+  "deprecated": false,
+  "summary": "Create a new `mxc://` URI without uploading the content."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/media/v3/download/{serverName}/{mediaId}",
+  "added": "",
+  "deprecated": true,
+  "summary": "Download content from the content repository."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/media/v3/download/{serverName}/{mediaId}/{fileName}",
+  "added": "",
+  "deprecated": true,
+  "summary": "Download content from the content repository overriding the file name"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/media/v3/thumbnail/{serverName}/{mediaId}",
+  "added": "1.11",
+  "deprecated": true,
+  "summary": "Download a thumbnail of content from the content repository"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/media/v3/preview_url",
+  "added": "",
+  "deprecated": true,
+  "summary": "Get information about a URL for a client"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "content-repo.yaml",
+  "method": "GET",
+  "path": "/_matrix/media/v3/config",
+  "added": "",
+  "deprecated": true,
+  "summary": "Get the configuration for the content repository."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "create_room.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/createRoom",
+  "added": "",
+  "deprecated": false,
+  "summary": "Create a new room"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "cross_signing.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/keys/device_signing/upload",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Upload cross-signing keys."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "cross_signing.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/keys/signatures/upload",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Upload cross-signing signatures."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "device_management.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/devices",
+  "added": "",
+  "deprecated": false,
+  "summary": "List registered devices for the current user"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "device_management.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/devices/{deviceId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get a single device"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "device_management.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/devices/{deviceId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Create or update a device"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "device_management.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/devices/{deviceId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Delete a device"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "device_management.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/delete_devices",
+  "added": "",
+  "deprecated": false,
+  "summary": "Bulk deletion of devices"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "directory.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/directory/room/{roomAlias}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Create a new mapping from room alias to room ID."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "directory.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/directory/room/{roomAlias}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the room ID corresponding to this room alias."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "directory.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/directory/room/{roomAlias}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Remove a mapping of room alias to room ID."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "directory.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/aliases",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get a list of local aliases on a given room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "event_context.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/context/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get events and state around the specified event."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "filter.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/user/{userId}/filter",
+  "added": "",
+  "deprecated": false,
+  "summary": "Upload a new filter."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "filter.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/user/{userId}/filter/{filterId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Download a filter"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "inviting.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/invite",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Invite a user to participate in a particular room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "joining.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/join",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Join the requesting user to a particular room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "joining.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/join/{roomIdOrAlias}",
+  "added": "1.12",
+  "deprecated": false,
+  "summary": "Join the requesting user to a particular room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/room_keys/version",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Create a new backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/room_keys/version",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Get information about the latest backup version."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/room_keys/version/{version}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Get information about an existing backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/room_keys/version/{version}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Update information about an existing backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/room_keys/version/{version}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Delete an existing key backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/room_keys/keys/{roomId}/{sessionId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Store a key in the backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/room_keys/keys/{roomId}/{sessionId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Retrieve a key from the backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/room_keys/keys/{roomId}/{sessionId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Delete a key from the backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/room_keys/keys/{roomId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Store several keys in the backup for a given room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/room_keys/keys/{roomId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Retrieve the keys from the backup for a given room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/room_keys/keys/{roomId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Delete the keys from the backup for a given room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/room_keys/keys",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Store several keys in the backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/room_keys/keys",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Retrieve the keys from the backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "key_backup.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/room_keys/keys",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Delete the keys from the backup."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "keys.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/keys/upload",
+  "added": "1.2",
+  "deprecated": false,
+  "summary": "Upload end-to-end encryption keys."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "keys.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/keys/query",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Download device identity keys."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "keys.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/keys/claim",
+  "added": "",
+  "deprecated": false,
+  "summary": "Claim one-time encryption keys."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "keys.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/keys/changes",
+  "added": "",
+  "deprecated": false,
+  "summary": "Query users with recent device key updates."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "kicking.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/kick",
+  "added": "",
+  "deprecated": false,
+  "summary": "Kick a user from the room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "knocking.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/knock/{roomIdOrAlias}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Knock on a room, requesting permission to join."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "leaving.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/leave",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Stop the requesting user participating in a particular room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "leaving.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/forget",
+  "added": "",
+  "deprecated": false,
+  "summary": "Stop the requesting user remembering about a particular room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "list_joined_rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/joined_rooms",
+  "added": "",
+  "deprecated": false,
+  "summary": "Lists the user's current rooms."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "list_public_rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/directory/list/room/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets the visibility of a room in the directory"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "list_public_rooms.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/directory/list/room/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Sets the visibility of a room in the directory"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "list_public_rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/publicRooms",
+  "added": "",
+  "deprecated": false,
+  "summary": "Lists a server's published room directory"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "list_public_rooms.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/publicRooms",
+  "added": "1.4",
+  "deprecated": false,
+  "summary": "Lists a server's published room directory with an optional filter"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "login.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/login",
+  "added": "1.7",
+  "deprecated": false,
+  "summary": "Get the supported login types to authenticate users"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "login.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/login",
+  "added": "1.3",
+  "deprecated": true,
+  "summary": "Authenticates the user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "login_token.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v1/login/get_token",
+  "added": "1.7",
+  "deprecated": false,
+  "summary": "Optional endpoint to generate a single-use, time-limited,"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "logout.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/logout",
+  "added": "",
+  "deprecated": false,
+  "summary": "Invalidates a user access token"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "logout.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/logout/all",
+  "added": "",
+  "deprecated": false,
+  "summary": "Invalidates all access tokens for a user"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "message_pagination.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/messages",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get a list of events for this room"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "mutual_rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/mutual_rooms",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the list of rooms that the user shares with another user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "notifications.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/notifications",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets a list of events that the user has been notified about"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "oauth_server_metadata.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/auth_metadata",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the OAuth 2.0 authorisation server metadata."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "old_sync.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/events",
+  "added": "",
+  "deprecated": true,
+  "summary": "Listen on the event stream."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "old_sync.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/initialSync",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the user's current state."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "old_sync.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/events/{eventId}",
+  "added": "",
+  "deprecated": true,
+  "summary": "Get a single event by event ID."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "openid.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/user/{userId}/openid/request_token",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get an OpenID token object to verify the requester's identity."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "password_management.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/password",
+  "added": "",
+  "deprecated": false,
+  "summary": "Changes a user's password."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "password_management.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/password/email/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Requests a validation token be sent to the given email address for the"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "password_management.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/account/password/msisdn/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Requests a validation token be sent to the given phone number for the"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "peeking_events.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/events",
+  "added": "",
+  "deprecated": false,
+  "summary": "Listen on the event stream of a particular room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "policy_server.yaml",
+  "method": "GET",
+  "path": "/.well-known/matrix/policy_server",
+  "added": "1.18",
+  "deprecated": false,
+  "summary": "Gets information about a Policy Server's configuration, if available."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "presence.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/presence/{userId}/status",
+  "added": "",
+  "deprecated": false,
+  "summary": "Update this user's presence state."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "presence.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/presence/{userId}/status",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get this user's presence state."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "profile.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/profile/{userId}/{keyName}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Set a profile field for a user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "profile.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/profile/{userId}/{keyName}",
+  "added": "1.12",
+  "deprecated": false,
+  "summary": "Get a profile field for a user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "profile.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/profile/{userId}/{keyName}",
+  "added": "1.16",
+  "deprecated": false,
+  "summary": "Remove a profile field from a user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "profile.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/profile/{userId}",
+  "added": "1.16",
+  "deprecated": false,
+  "summary": "Get all profile information for a user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pusher.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/pushers",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets the current pushers for the authenticated user"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pusher.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/pushers/set",
+  "added": "",
+  "deprecated": false,
+  "summary": "Modify a pusher for this user on the homeserver."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/pushrules/",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve all push rulesets."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/pushrules/global/",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve all push rules."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/pushrules/global/{kind}/{ruleId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve a push rule."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/pushrules/global/{kind}/{ruleId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Delete a push rule."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/pushrules/global/{kind}/{ruleId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Add or change a push rule."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/pushrules/global/{kind}/{ruleId}/enabled",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get whether a push rule is enabled"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/pushrules/global/{kind}/{ruleId}/enabled",
+  "added": "",
+  "deprecated": false,
+  "summary": "Enable or disable a push rule."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/pushrules/global/{kind}/{ruleId}/actions",
+  "added": "",
+  "deprecated": false,
+  "summary": "The actions for a push rule"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "pushrules.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/pushrules/global/{kind}/{ruleId}/actions",
+  "added": "",
+  "deprecated": false,
+  "summary": "Set the actions for a push rule."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "read_markers.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/read_markers",
+  "added": "1.4",
+  "deprecated": false,
+  "summary": "Set the position of the read marker for a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "receipts.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/receipt/{receiptType}/{eventId}",
+  "added": "1.4",
+  "deprecated": false,
+  "summary": "Send a receipt for the given event ID."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "redaction.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/rooms/{roomId}/redact/{eventId}/{txnId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Strips all non-integrity-critical information out of an event."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "refresh.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/refresh",
+  "added": "1.3",
+  "deprecated": false,
+  "summary": "Refresh an access token"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "registration.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/register",
+  "added": "",
+  "deprecated": false,
+  "summary": "Register for an account on this homeserver."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "registration.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/register/email/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Begins the validation process for an email to be used during"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "registration.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/register/msisdn/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Requests a validation token be sent to the given phone number for the"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "registration.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/register/available",
+  "added": "",
+  "deprecated": false,
+  "summary": "Checks to see if a username is available on the server."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "registration_tokens.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/register/m.login.registration_token/validity",
+  "added": "1.2",
+  "deprecated": false,
+  "summary": "Query if a given registration token is still valid."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "relations.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/rooms/{roomId}/relations/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the child events for a given parent event."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "relations.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/rooms/{roomId}/relations/{eventId}/{relType}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the child events for a given parent event, with a given `relType`."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "relations.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/rooms/{roomId}/relations/{eventId}/{relType}/{eventType}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the child events for a given parent event, with a given `relType`"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "report_content.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/report",
+  "added": "1.13",
+  "deprecated": false,
+  "summary": "Report a room as inappropriate."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "report_content.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/report/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Report an event in a joined room as inappropriate."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "report_content.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/users/{userId}/report",
+  "added": "1.14",
+  "deprecated": false,
+  "summary": "Report a user as inappropriate."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "room_event_by_timestamp.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/rooms/{roomId}/timestamp_to_event",
+  "added": "1.6",
+  "deprecated": false,
+  "summary": "Get the closest event ID to the given timestamp"
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "room_initial_sync.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/initialSync",
+  "added": "",
+  "deprecated": false,
+  "summary": "Snapshot the current state of a room and its most recent messages."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "room_send.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/rooms/{roomId}/send/{eventType}/{txnId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Send a message event to the given room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "room_state.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/rooms/{roomId}/state/{eventType}/{stateKey}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Send a state event to the given room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "room_summary.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/room_summary/{roomIdOrAlias}",
+  "added": "1.15",
+  "deprecated": false,
+  "summary": "Retrieves a summary for a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "room_upgrades.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/upgrade",
+  "added": "1.16",
+  "deprecated": false,
+  "summary": "Upgrades a room to a new room version."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/event/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get a single event by event ID."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/state/{eventType}/{stateKey}",
+  "added": "1.16",
+  "deprecated": false,
+  "summary": "Get the state identified by the type and key."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/state",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get all state events in the current state of a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/members",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the m.room.member events for the room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/rooms/{roomId}/joined_members",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets the list of currently joined users and their profile data."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "search.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/search",
+  "added": "",
+  "deprecated": false,
+  "summary": "Perform a server-side search."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "space_hierarchy.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/rooms/{roomId}/hierarchy",
+  "added": "1.2",
+  "deprecated": false,
+  "summary": "Retrieve a portion of a space tree."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "sso_login_redirect.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/login/sso/redirect",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Redirect the user's browser to the SSO interface."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "sso_login_redirect.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/login/sso/redirect/{idpId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Redirect the user's browser to the SSO interface for an IdP."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "support.yaml",
+  "method": "GET",
+  "path": "/.well-known/matrix/support",
+  "added": "1.10",
+  "deprecated": false,
+  "summary": "Gets homeserver contacts and support details."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "sync.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/sync",
+  "added": "1.16",
+  "deprecated": false,
+  "summary": "Synchronise the client's state and receive new messages."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "tags.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/user/{userId}/rooms/{roomId}/tags",
+  "added": "",
+  "deprecated": false,
+  "summary": "List the tags for a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "tags.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/user/{userId}/rooms/{roomId}/tags/{tag}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Add a tag to a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "tags.yaml",
+  "method": "DELETE",
+  "path": "/_matrix/client/v3/user/{userId}/rooms/{roomId}/tags/{tag}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Remove a tag from the room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "third_party_lookup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/thirdparty/protocols",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve metadata about all protocols that a homeserver supports."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "third_party_lookup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/thirdparty/protocol/{protocol}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve metadata about a specific protocol that the homeserver supports."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "third_party_lookup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/thirdparty/location/{protocol}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve Matrix-side portals rooms leading to a third-party location."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "third_party_lookup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/thirdparty/user/{protocol}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve the Matrix User ID of a corresponding third-party user."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "third_party_lookup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/thirdparty/location",
+  "added": "",
+  "deprecated": false,
+  "summary": "Reverse-lookup third-party locations given a Matrix room alias."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "third_party_lookup.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/thirdparty/user",
+  "added": "",
+  "deprecated": false,
+  "summary": "Reverse-lookup third-party users given a Matrix User ID."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "third_party_membership.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/rooms/{roomId}/invite",
+  "added": "",
+  "deprecated": false,
+  "summary": "Invite a user to participate in a particular room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "threads_list.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v1/rooms/{roomId}/threads",
+  "added": "1.4",
+  "deprecated": false,
+  "summary": "Fetches a list of the threads in a room."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "to_device.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/sendToDevice/{eventType}/{txnId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Send an event to a given set of devices."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "typing.yaml",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/rooms/{roomId}/typing/{userId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Informs the server that the user has started or stopped typing."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "users.yaml",
+  "method": "POST",
+  "path": "/_matrix/client/v3/user_directory/search",
+  "added": "",
+  "deprecated": false,
+  "summary": "Searches the user directory."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "versions.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/versions",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets the versions of the specification supported by the server."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "voip.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/voip/turnServer",
+  "added": "",
+  "deprecated": false,
+  "summary": "Obtain TURN server credentials."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "wellknown.yaml",
+  "method": "GET",
+  "path": "/.well-known/matrix/client",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets Matrix server discovery information about the domain."
+ },
+ {
+  "area": "CS",
+  "api": "client-server",
+  "file": "whoami.yaml",
+  "method": "GET",
+  "path": "/_matrix/client/v3/account/whoami",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Gets information about the owner of an access token."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "backfill.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/backfill/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieves the events which precede the given event"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "backfill.yaml",
+  "method": "POST",
+  "path": "/_matrix/federation/v1/get_missing_events/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieves events that the sender is missing"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "content_repository.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/media/download/{mediaId}",
+  "added": "1.11",
+  "deprecated": false,
+  "summary": "Download content from the content repository."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "content_repository.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/media/thumbnail/{mediaId}",
+  "added": "1.11",
+  "deprecated": false,
+  "summary": "Download a thumbnail of content from the content repository"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "event_auth.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/event_auth/{roomId}/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the auth chain for a given event"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "events.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/state/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get all the state of a given room"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "events.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/state_ids/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get all the state event IDs of a given room"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "events.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/event/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get a single event"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "events.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/timestamp_to_event/{roomId}",
+  "added": "1.6",
+  "deprecated": false,
+  "summary": "Get the closest event ID to the given timestamp"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "invites-v1.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v1/invite/{roomId}/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Invites a remote user to a room"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "invites-v2.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v2/invite/{roomId}/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Invites a remote user to a room"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "joins-v1.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/make_join/{roomId}/{userId}",
+  "added": "1.2",
+  "deprecated": false,
+  "summary": "Get information required to make a join event for a room"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "joins-v2.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v2/send_join/{roomId}/{eventId}",
+  "added": "1.6",
+  "deprecated": false,
+  "summary": "Submit a signed join event to a resident server"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "keys_query.yaml",
+  "method": "GET",
+  "path": "/_matrix/key/v2/query/{serverName}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Query for another server's keys"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "keys_query.yaml",
+  "method": "POST",
+  "path": "/_matrix/key/v2/query",
+  "added": "",
+  "deprecated": false,
+  "summary": "Query for several server's keys"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "keys_server.yaml",
+  "method": "GET",
+  "path": "/_matrix/key/v2/server",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the homeserver's public key(s)"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "knocks.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/make_knock/{roomId}/{userId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Get information required to make a knock event for a room."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "knocks.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v1/send_knock/{roomId}/{eventId}",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Submit a signed knock event to a resident server."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "leaving-v1.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/make_leave/{roomId}/{userId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get information required to make a leave event for a room"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "leaving-v2.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v2/send_leave/{roomId}/{eventId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Submit a signed leave event to a resident server"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "openid.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/openid/userinfo",
+  "added": "",
+  "deprecated": false,
+  "summary": "Exchange an OpenID token for user information"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "public_rooms.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/publicRooms",
+  "added": "",
+  "deprecated": false,
+  "summary": "Lists the server's published room directory"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "public_rooms.yaml",
+  "method": "POST",
+  "path": "/_matrix/federation/v1/publicRooms",
+  "added": "1.4",
+  "deprecated": false,
+  "summary": "Lists the server's published room directory with an optional filter"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "query.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/query/{queryType}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Query for information"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "query.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/query/directory",
+  "added": "",
+  "deprecated": false,
+  "summary": "Query for the room ID and resident homeservers for a room alias"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "query.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/query/profile",
+  "added": "1.16",
+  "deprecated": false,
+  "summary": "Query for profile information about a given user"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "room_policy.yaml",
+  "method": "POST",
+  "path": "/_matrix/policy/v1/sign",
+  "added": "",
+  "deprecated": false,
+  "summary": "Asks the Policy Server to sign an event."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "space_hierarchy.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/hierarchy/{roomId}",
+  "added": "1.2",
+  "deprecated": false,
+  "summary": "Retrieve a portion of a space tree."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "third_party_invite.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v1/exchange_third_party_invite/{roomId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Request a server to auth a third-party invite event"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "third_party_invite.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v1/3pid/onbind",
+  "added": "",
+  "deprecated": false,
+  "summary": "|-"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "transactions.yaml",
+  "method": "PUT",
+  "path": "/_matrix/federation/v1/send/{txnId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Send a transaction"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "user_devices.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/user/devices/{userId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets all of the user's devices"
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "user_keys.yaml",
+  "method": "POST",
+  "path": "/_matrix/federation/v1/user/keys/claim",
+  "added": "",
+  "deprecated": false,
+  "summary": "Claims one-time encryption keys for a user."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "user_keys.yaml",
+  "method": "POST",
+  "path": "/_matrix/federation/v1/user/keys/query",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Download device identity keys."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "version.yaml",
+  "method": "GET",
+  "path": "/_matrix/federation/v1/version",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get the implementation name and version of this homeserver."
+ },
+ {
+  "area": "SS",
+  "api": "server-server",
+  "file": "wellknown.yaml",
+  "method": "GET",
+  "path": "/.well-known/matrix/server",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets information about the delegated server for server-server"
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "ping.yaml",
+  "method": "POST",
+  "path": "/_matrix/app/v1/ping",
+  "added": "1.7",
+  "deprecated": false,
+  "summary": "Ping the application service"
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "protocols.yaml",
+  "method": "GET",
+  "path": "/_matrix/app/v1/thirdparty/protocol/{protocol}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve metadata about a specific protocol that the application"
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "protocols.yaml",
+  "method": "GET",
+  "path": "/_matrix/app/v1/thirdparty/user/{protocol}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve the Matrix User ID of a corresponding third-party user."
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "protocols.yaml",
+  "method": "GET",
+  "path": "/_matrix/app/v1/thirdparty/location/{protocol}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Retrieve Matrix-side portal rooms leading to a third-party location."
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "protocols.yaml",
+  "method": "GET",
+  "path": "/_matrix/app/v1/thirdparty/location",
+  "added": "",
+  "deprecated": false,
+  "summary": "Reverse-lookup third-party locations given a Matrix room alias."
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "protocols.yaml",
+  "method": "GET",
+  "path": "/_matrix/app/v1/thirdparty/user",
+  "added": "",
+  "deprecated": false,
+  "summary": "Reverse-lookup third-party users given a Matrix User ID."
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "query_room.yaml",
+  "method": "GET",
+  "path": "/_matrix/app/v1/rooms/{roomAlias}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Query if a room alias should exist on the application service."
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "query_user.yaml",
+  "method": "GET",
+  "path": "/_matrix/app/v1/users/{userId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Query if a user should exist on the application service."
+ },
+ {
+  "area": "AS",
+  "api": "application-service",
+  "file": "transactions.yaml",
+  "method": "PUT",
+  "path": "/_matrix/app/v1/transactions/{txnId}",
+  "added": "1.13",
+  "deprecated": false,
+  "summary": "Send some events to the application service."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_associations.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/3pid/getValidated3pid",
+  "added": "",
+  "deprecated": false,
+  "summary": "Check whether ownership of a 3pid was validated."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_associations.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/3pid/bind",
+  "added": "",
+  "deprecated": false,
+  "summary": "Publish an association between a session and a Matrix user ID."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_associations.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/3pid/unbind",
+  "added": "",
+  "deprecated": false,
+  "summary": "Remove an association between a session and a Matrix user ID."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_auth.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/account/register",
+  "added": "",
+  "deprecated": false,
+  "summary": "Exchanges an OpenID token for an access token."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_auth.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/account",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets account holder information for a given token."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_auth.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/account/logout",
+  "added": "",
+  "deprecated": false,
+  "summary": "Logs out an access token, rendering it unusable."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_email_associations.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/validate/email/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Request a token for validating an email address."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_email_associations.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/validate/email/submitToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Validate ownership of an email address."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_email_associations.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/validate/email/submitToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Validate ownership of an email address."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_invitation_signing.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/sign-ed25519",
+  "added": "",
+  "deprecated": false,
+  "summary": "Sign invitation details"
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_lookup.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/hash_details",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets hash function information from the server."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_lookup.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/lookup",
+  "added": "",
+  "deprecated": false,
+  "summary": "Look up Matrix User IDs for a set of 3PIDs."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_phone_associations.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/validate/msisdn/requestToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Request a token for validating a phone number."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_phone_associations.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/validate/msisdn/submitToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Validate ownership of a phone number."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_phone_associations.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/validate/msisdn/submitToken",
+  "added": "",
+  "deprecated": false,
+  "summary": "Validate ownership of a phone number."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_ping.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2",
+  "added": "",
+  "deprecated": false,
+  "summary": "Checks that an identity server is available at this API endpoint."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_pubkey.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/pubkey/{keyId}",
+  "added": "",
+  "deprecated": false,
+  "summary": "Get a public key."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_pubkey.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/pubkey/isvalid",
+  "added": "",
+  "deprecated": false,
+  "summary": "Check whether a long-term public key is valid."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_pubkey.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/pubkey/ephemeral/isvalid",
+  "added": "",
+  "deprecated": false,
+  "summary": "Check whether a short-term public key is valid."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_store_invite.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/store-invite",
+  "added": "",
+  "deprecated": false,
+  "summary": "Store pending invitations to a user's 3pid."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_terms.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/v2/terms",
+  "added": "",
+  "deprecated": false,
+  "summary": "Gets the terms of service offered by the server."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "v2_terms.yaml",
+  "method": "POST",
+  "path": "/_matrix/identity/v2/terms",
+  "added": "",
+  "deprecated": false,
+  "summary": "Indicates acceptance of terms to the server."
+ },
+ {
+  "area": "ID",
+  "api": "identity",
+  "file": "versions.yaml",
+  "method": "GET",
+  "path": "/_matrix/identity/versions",
+  "added": "1.1",
+  "deprecated": false,
+  "summary": "Gets the versions of the specification supported by the server."
+ },
+ {
+  "area": "PG",
+  "api": "push-gateway",
+  "file": "push_notifier.yaml",
+  "method": "POST",
+  "path": "/_matrix/push/v1/notify",
+  "added": "",
+  "deprecated": false,
+  "summary": "Notify a push gateway about an event."
+ }
+]
