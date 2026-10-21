@@ -82,3 +82,60 @@ impl<T: serde::Serialize> IntoResponse for MatrixJson<T> {
         axum::Json(self.0).into_response()
     }
 }
+
+/// Optional variant of [`MatrixJson`].
+///
+/// Unlike `Option<MatrixJson<T>>` — which swallows *every* rejection,
+/// including a malformed body — this extractor only returns `None` when the
+/// request has no body at all.  A body that is present but not valid JSON
+/// still produces the spec-compliant `M_BAD_JSON` error.
+pub struct OptionalMatrixJson<T>(pub Option<T>);
+
+impl<T> FromRequest<crate::state::AppState> for OptionalMatrixJson<T>
+where
+    T: DeserializeOwned,
+{
+    type Rejection = MatrixError;
+
+    async fn from_request(
+        req: Request,
+        _state: &crate::state::AppState,
+    ) -> Result<Self, Self::Rejection> {
+        // A request without a body at all is not an error: the endpoint
+        // accepts an empty body.
+        let content_type = req
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("")
+            .to_string();
+
+        let bytes = axum::body::to_bytes(req.into_body(), 1024 * 1024)
+            .await
+            .map_err(|_| MatrixError::bad_json("Failed to read request body"))?;
+
+        if bytes.is_empty() {
+            return Ok(OptionalMatrixJson(None));
+        }
+
+        if !content_type.contains("application/json") {
+            return Err(MatrixError::not_json());
+        }
+
+        if std::str::from_utf8(&bytes).is_err() {
+            return Err(MatrixError::not_json());
+        }
+
+        let value: T = serde_json::from_slice(&bytes)
+            .map_err(|e| MatrixError::bad_json(format!("Invalid JSON: {e}")))?;
+
+        Ok(OptionalMatrixJson(Some(value)))
+    }
+}
+
+/// Allow `OptionalMatrixJson` to be used as a response (like axum::Json).
+impl<T: serde::Serialize> IntoResponse for OptionalMatrixJson<T> {
+    fn into_response(self) -> Response {
+        axum::Json(self.0).into_response()
+    }
+}

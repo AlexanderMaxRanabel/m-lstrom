@@ -63,7 +63,7 @@ use serde::Deserialize;
 use maelstrom_core::matrix::error::{ErrorCode, MatrixError};
 use maelstrom_core::matrix::id::DeviceId;
 use maelstrom_core::matrix::room::event_type as et;
-use maelstrom_storage::traits::StorageError;
+use maelstrom_storage::traits::{Storage, StorageError};
 
 use crate::extractors::{AuthenticatedUser, MatrixJson};
 use crate::handlers::util;
@@ -98,6 +98,11 @@ pub fn routes() -> Router<AppState> {
             axum::routing::delete(delete_room_account_data),
         )
         .route("/_matrix/client/v3/pushrules/", get(get_pushrules))
+        .route("/_matrix/client/v3/pushrules/global/", get(get_pushrules_global))
+        .route(
+            "/_matrix/client/v3/pushrules/global",
+            get(get_pushrules_global),
+        )
         .route("/_matrix/client/v3/pushers", get(get_pushers))
         .route("/_matrix/client/v3/pushers/set", post(set_pushers))
         .route(
@@ -523,7 +528,30 @@ async fn get_pushrules(
     auth: AuthenticatedUser,
 ) -> Json<serde_json::Value> {
     let user_id = auth.user_id.to_string();
-    let user_rules = get_user_push_rules(state.storage(), &user_id).await;
+    let global = merged_push_rules(state.storage(), &user_id).await;
+
+    Json(serde_json::json!({ "global": global }))
+}
+
+/// `GET /_matrix/client/v3/pushrules/global/`
+///
+/// Returns the global push ruleset (the rules themselves, without the
+/// `{"global": ...}` wrapper used by `GET /pushrules/`).
+async fn get_pushrules_global(
+    State(state): State<AppState>,
+    auth: AuthenticatedUser,
+) -> Json<serde_json::Value> {
+    let user_id = auth.user_id.to_string();
+    let global = merged_push_rules(state.storage(), &user_id).await;
+
+    Json(global)
+}
+
+/// Build the effective push ruleset for a user: the server defaults with the
+/// user's own rules merged in (a user rule replaces a default rule with the
+/// same `rule_id`).
+async fn merged_push_rules(storage: &dyn Storage, user_id: &str) -> serde_json::Value {
+    let user_rules = get_user_push_rules(storage, user_id).await;
     let mut global = default_push_rules();
 
     // Merge user custom rules (user rules override defaults with same rule_id)
@@ -550,7 +578,7 @@ async fn get_pushrules(
         }
     }
 
-    Json(serde_json::json!({ "global": global }))
+    global
 }
 
 async fn get_pushers(

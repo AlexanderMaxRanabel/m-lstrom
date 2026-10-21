@@ -32,7 +32,7 @@ use maelstrom_core::matrix::event::timestamp_ms;
 use maelstrom_core::matrix::id::server_name_from_sigil_id;
 use maelstrom_core::matrix::room::Membership;
 
-use crate::extractors::AuthenticatedUser;
+use crate::extractors::{AuthenticatedUser, OptionalMatrixJson};
 use crate::handlers::util::require_membership;
 use crate::notify::Notification;
 use crate::state::AppState;
@@ -48,7 +48,7 @@ async fn send_receipt(
     State(state): State<AppState>,
     auth: AuthenticatedUser,
     Path((room_id, receipt_type, event_id)): Path<(String, String, String)>,
-    body: Option<axum::Json<serde_json::Value>>,
+    body: OptionalMatrixJson<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let storage = state.storage();
     let sender = auth.user_id.to_string();
@@ -63,6 +63,7 @@ async fn send_receipt(
     // Extract thread_id from request body (MSC4102).
     // Empty string means unthreaded (the default).
     let thread_id = body
+        .0
         .as_ref()
         .and_then(|b| b.get("thread_id"))
         .and_then(|v| v.as_str())

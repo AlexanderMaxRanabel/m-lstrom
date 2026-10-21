@@ -7,6 +7,7 @@
 use argon2::password_hash::SaltString;
 use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
 use maelstrom_core::matrix::error::MatrixError;
+use maelstrom_core::matrix::event::Pdu;
 use maelstrom_storage::traits::StorageError;
 use rand::Rng;
 use rand::rngs::OsRng;
@@ -101,6 +102,58 @@ pub async fn require_membership(
             Err(MatrixError::forbidden("You are not in this room"))
         }
         Err(other) => Err(crate::extractors::storage_error(other)),
+    }
+}
+
+/// Authorise an event against the current state of its room.
+///
+/// This applies the Matrix authorisation rules
+/// (`maelstrom_core::matrix::auth_rules`) to a candidate event.  It is the
+/// single gate used by every client-server endpoint that creates an event, so
+/// that the local API and the federation receiver agree on what is allowed.
+///
+/// The candidate event does not need an event ID or a timestamp yet: only its
+/// type, sender, state key and content are inspected.
+///
+/// # Errors
+///
+/// Returns `403 M_FORBIDDEN` when the event is not allowed in the room.
+pub async fn authorize_event(
+    storage: &dyn maelstrom_storage::traits::Storage,
+    room_id: &str,
+    event: &Pdu,
+) -> Result<(), MatrixError> {
+    use maelstrom_core::matrix::auth_rules::{self, RoomState};
+
+    let room = storage
+        .get_room(room_id)
+        .await
+        .map_err(|_| MatrixError::not_found("Room not found"))?;
+
+    let state_events = storage
+        .get_current_state(room_id)
+        .await
+        .map_err(crate::extractors::storage_error)?;
+
+    let state = RoomState::new(
+        room_id,
+        &room.version,
+        Some(room.creator.as_str()),
+        &state_events,
+    );
+
+    match auth_rules::check(&state, event) {
+        Ok(()) => Ok(()),
+        Err(err) => {
+            tracing::debug!(
+                room_id = %room_id,
+                sender = %event.sender,
+                event_type = %event.event_type,
+                reason = %err,
+                "Event rejected by the authorisation rules"
+            );
+            Err(MatrixError::forbidden(err.message().to_string()))
+        }
     }
 }
 

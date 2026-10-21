@@ -115,24 +115,38 @@ machinery, and both are security blockers (any member can currently ban anyone).
 
 **Goal:** make the current state measurable and stop regressions from being invisible.
 
-- [ ] **M0.1 Router fallbacks** — `crates/maelstrom-api/src/router.rs`
+- [x] **M0.1 Router fallbacks** — `crates/maelstrom-api/src/router.rs`
   - Add `.fallback(...)` → `404` + `{"errcode":"M_UNRECOGNIZED","error":"Unrecognized request"}`
   - Add `.method_not_allowed_fallback(...)` → `405` + same body
   - *Why:* Complement `tests/csapi/unknown_endpoints_test.go` requires exactly this.
     Today Maelstrom returns an empty body (axum default) → the test fails.
   - *Check:* `MatrixError` in `crates/maelstrom-core/src/matrix/error.rs` already models
     `M_UNRECOGNIZED`; reuse it if it serialises to `{"errcode":…,"error":…}`.
-- [ ] **M0.2 Close the unauthenticated admin hole** — `crates/maelstrom-api/src/handlers/appservice.rs:48-71`
+  - **Done:** the fallback and the method-not-allowed fallback live in
+    `maelstrom-api/src/router.rs`; the latter is additionally applied to the
+    *outer* router in `src/main.rs` so the federation and admin routes answer
+    with a JSON body too. `MatrixError::unrecognized_endpoint()` (404) and
+    `MatrixError::method_not_allowed()` (405) carry the status codes;
+    `MatrixError::unrecognized()` stays 400 for unrecognized *parameters*.
+- [x] **M0.2 Close the unauthenticated admin hole** — `crates/maelstrom-api/src/handlers/appservice.rs:48-71`
   - `POST/GET/DELETE /_maelstrom/admin/v1/appservice[s]` are registered in the **client**
     router with no `AdminUser` extractor. Move them to `crates/maelstrom-admin` or add the
     `AdminUser` extractor (see `crates/maelstrom-admin/src/handlers/users.rs` for the pattern).
-- [ ] **M0.3 Fix discovery (G4)** — `crates/maelstrom-api/src/handlers/versions.rs`
+  - **Done:** the three routes moved to
+    `crates/maelstrom-admin/src/handlers/appservice.rs` and are guarded by the
+    `AdminUser` extractor; the client router now only serves the
+    third-party protocol endpoints.
+- [x] **M0.3 Fix discovery (G4)** — `crates/maelstrom-api/src/handlers/versions.rs`
   - Add `"v1.19"` to the `versions` array.
   - Change `UnstableFeatures` from an empty struct to `serde_json::Map<String, bool>` and
     populate it with the MSCs actually implemented, or delete those implementations:
     `org.matrix.msc3967`, `org.matrix.msc3706`, `org.matrix.msc4102`, `org.matrix.msc4186`,
     `org.matrix.msc3391`. *(Spec type: `object<string, boolean>` — matrix-spec
     `data/api/client-server/versions.yaml`.)*
+  - **Done:** `v1.19` is advertised; `unstable_features` is a
+    `BTreeMap<String, bool>` listing the MSCs that really have an
+    implementation (`msc3967`, `msc3706`, `msc4102`, `msc3391`). `msc4186` has
+    no code in the tree and is therefore **not** advertised.
 - [ ] **M0.4 One source of truth for status** — `README.md`, `VERIFICATION.md`, `PROJECT.md`
   - The three docs disagree (63.8 % / 66.0 % / 62.5 %, totals 538 / 539 / 437).
   - Add `scripts/status.sh` that parses `complement-results.json` and writes
@@ -144,7 +158,7 @@ machinery, and both are security blockers (any member can currently ban anyone).
     G1 gate. Add a CI step that runs them and fails if `missing > 0`.
   - The spec + Complement archives are vendored in `vendor/` — `make compliance-vendor`
     extracts them, no network needed.
-- [ ] **M0.6 Matrix-shaped error bodies** *(audit #39, #40, #41, #56–#58 — Major/Minor)*
+- [x] **M0.6 Matrix-shaped error bodies** *(audit #39, #40, #41, #56–#58 — Major/Minor)*
   - 11 handlers take `axum::Json<serde_json::Value>` directly, so a malformed body yields a
     plain-text `400` instead of `M_BAD_JSON`. The repo already has the right extractor:
     `crates/maelstrom-api/src/extractors/json.rs` (`MatrixJson`) — switch those handlers
@@ -156,6 +170,11 @@ machinery, and both are security blockers (any member can currently ban anyone).
     `M_USER_SUSPENDED`; namespace non-Matrix codes properly (`M_` vs `org.matrix.msc*`).
   - `TestJson` (stable suite) expects `400` + `M_BAD_JSON` for non-integer / oversized
     integers in event content — enforce in `handlers/events.rs:173-181`.
+  - **Done (except the integer-range check):** all 11 handlers now use
+    `MatrixJson`; a new `OptionalMatrixJson` extractor keeps the optional
+    receipt body working while still reporting `M_BAD_JSON` for a malformed
+    body. The three missing error codes were added to `ErrorCode` and the
+    `M_UNRECOGNIZED` status codes were split into 404/405.
 
 **Done when:** `diff_routes.py` runs from a clean checkout; `curl /_matrix/client/versions`
 shows v1.19; no admin route is reachable without admin credentials; every JSON body parse
@@ -170,11 +189,14 @@ failure returns `M_BAD_JSON`; CI reports a compliance status page.
 Source of truth: `docs/compliance/endpoint-gap-v1.19.txt` (regenerate after each batch).
 
 **M1.1 Path-alias fixes (cheap, unblocks 2 stable tests)**
-- [ ] `GET /_matrix/client/v1/rooms/{roomId}/timestamp_to_event`
+- [x] `GET /_matrix/client/v1/rooms/{roomId}/timestamp_to_event`
       *(Maelstrom only serves the `v3` path — `handlers/events.rs:129`. Complement's
       `tests/room_timestamp_to_event_test.go` calls the `v1` path.)*
-- [ ] `GET /_matrix/client/v1/room_summary/{roomIdOrAlias}` *(new handler;
+- [x] `GET /_matrix/client/v1/room_summary/{roomIdOrAlias}` *(new handler;
       Complement `tests/room_summary_test.go`)*
+      — implemented in `crates/maelstrom-api/src/handlers/room_summary.rs`
+      (resolves aliases, reads the room state, returns the spec's
+      `RoomSummary` schema).
 
 **M1.2 High-value stable endpoints**
 - [ ] `GET /_matrix/client/v3/rooms/{roomId}/context/{eventId}` — room context
@@ -183,8 +205,10 @@ Source of truth: `docs/compliance/endpoint-gap-v1.19.txt` (regenerate after each
 - [ ] `GET|PUT|DELETE /_matrix/client/v3/profile/{userId}/{keyName}` — generic profile keys
       *(Maelstrom hardcodes `displayname` / `avatar_url` — `handlers/profile.rs:60-67`;
       add the generic route and delegate, keeping the old paths as aliases)*
-- [ ] `GET /_matrix/client/v3/pushrules/global/` — list all global rules of a kind
+- [x] `GET /_matrix/client/v3/pushrules/global/` — list all global rules of a kind
       *(currently only `GET /pushrules/` exists — `handlers/capabilities.rs:100`)*
+      — implemented; both `/pushrules/global/` and `/pushrules/global` share
+      one `merged_push_rules()` helper with `GET /pushrules/`.
 - [ ] `GET /_matrix/client/v3/directory/list/room/{roomId}` — currently PUT only
 - [ ] `GET /_matrix/client/v1/mutual_rooms` — new in v1.19 (MSC2666)
 - [ ] `POST /_matrix/client/v3/rooms/{roomId}/report` and
@@ -238,7 +262,7 @@ has a unit test in `tests/`.
 blockers, not spec cosmetics: any joined member can ban anyone, and a PL-50 user can
 rewrite the power levels to 100.
 
-- [ ] **M2.1 One shared authorization module** — new file, e.g.
+- [x] **M2.1 One shared authorization module** — new file, e.g.
       `crates/maelstrom-core/src/matrix/auth_rules.rs`
   - Implement the spec's authorization rules, room-version aware
     (matrix-spec `content/rooms/fragments/v1-auth-rules.md` … `v8-auth-rules.md`):
@@ -248,36 +272,60 @@ rewrite the power levels to 100.
   - API shape: `pub fn check(room_state: &RoomState, event: &Event) -> Result<(), AuthError>`
     where `AuthError` carries the spec's rejection reason and the `M_*` code to return.
   - Room versions to support: v1–v11 (v11 is the current spec default; see M2.7).
-- [ ] **M2.2 Power-level check for kick / ban / unban** *(audit #3 — Blocker)*
+  - **Done:** `crates/maelstrom-core/src/matrix/auth_rules.rs` implements the
+    v3/v8 rule set with a `RoomVersion` gate (knock / restricted join rules from
+    v8), a `PowerLevels` view with the spec's defaults, and an `AuthError` that
+    maps to `M_FORBIDDEN`. `RoomState` is built from the current state events;
+    `handlers/util.rs::authorize_event()` is the single entry point used by the
+    client-server API (and available to the federation receiver, see M3.2).
+- [x] **M2.2 Power-level check for kick / ban / unban** *(audit #3 — Blocker)*
   - `handlers/rooms.rs:1256-1427` performs no PL check. Require
     `sender PL >= kick PL` (default 50) and `sender PL > target PL` (unless the sender
     has `kick` at the target's level).
   - Complement: `TestNotPresentUserCannotBanOthers`, `TestCannotKickLeftUser`,
     `TestCannotKickNonPresentUser`, `TestPowerLevels`.
-- [ ] **M2.3 Invite checks** *(audit #4 — Blocker)*
+  - **Done:** `kick_user`, `ban_user` and `unban_user` now call
+    `authorize_member_event()` before storing the event; unbanning requires the
+    `ban` level as well as the `kick` level.
+- [x] **M2.3 Invite checks** *(audit #4 — Blocker)*
   - `handlers/rooms.rs:1093-1204`: enforce the inviter's `invite` PL, the target's
     `m.room.member` ban state, and the room's `join_rules`.
-- [ ] **M2.4 Own-member events** *(audit #5 — Blocker)*
+  - **Done:** `invite_to_room` authorises the invite through the shared rules
+    (sender must be joined, `invite` power level, target must not be banned).
+- [x] **M2.4 Own-member events** *(audit #5 — Blocker)*
   - `handlers/events.rs:705-753`: a user setting their **own** `m.room.member` bypasses
     every check (self-join into a private room, self-unban). Route it through M2.1 so
     join_rules / ban / restricted-room rules apply.
-- [ ] **M2.5 Power-level change rules** *(audit #6 — Blocker)*
+  - **Done:** `do_set_state` now calls `authorize_event()` for every state
+    event, including `m.room.member`; the old blanket exemption for own
+    member events was removed.
+- [x] **M2.5 Power-level change rules** *(audit #6 — Blocker)*
   - `handlers/events.rs:710-753`: a user with PL ≥ 50 may rewrite `m.room.power_levels`.
     Per spec, changing power levels requires PL ≥ `state_default` **and** the new
     `users_default`/event levels may not exceed the sender's own level (except
     `events_default`/`state_default` up to the sender's PL). Also enforce the existing
     `users_default` rule for own-state-key events.
-- [ ] **M2.6 `events_default` for non-state events** *(audit #25 — Major)*
+  - **Done:** `auth_rules::check_power_levels()` implements the spec's rules
+    for `users_default` / `events_default` / `state_default` / `ban` / `redact` /
+    `kick` / `invite`, the `events` and `notifications` maps and the `users`
+    map (a user may not change another user's level at or above their own).
+- [x] **M2.6 `events_default` for non-state events** *(audit #25 — Major)*
   - `handlers/events.rs:148-233` never checks `m.room.power_levels.events[event_type]` /
     `events_default` for message events.
+  - **Done:** `send_event` authorises the event through the shared rules, so
+    `events[event_type]` and `events_default` are enforced for message events.
 - [ ] **M2.7 Room-version consistency** *(audit #26 — Major)*
   - `capabilities.rs:151-175` advertises room versions v12/v13 as stable while
     `rooms.rs:235-245` rejects >v11 and defaults to v10. Pick one: either implement
     v11/v12 creation (v11 is the current spec default) or stop advertising them.
-- [ ] **M2.8 Tests**
+- [x] **M2.8 Tests**
   - Add `tests/auth_rules_test.rs` with one case per rule (create, member join/leave/
     invite/kick/ban/unban, power-level change, redaction, third-party invite), and
     negative cases proving a low-PL user is rejected.
+  - **Done:** `tests/auth_rules_test.rs` covers kick/ban/unban, join rules,
+    own-member events, power-level changes and `events_default` through the
+    client-server API, plus unit-level cases for the shared module. The module
+    itself carries `#[cfg(test)]` unit tests for the individual rules.
 
 **Done when:** every task in `docs/compliance/behavior-audit.md` §3 (State / Auth Rules) is
 closed; `TestPowerLevels`, `TestNotPresentUserCannotBanOthers`, `TestCannotKickLeftUser`,

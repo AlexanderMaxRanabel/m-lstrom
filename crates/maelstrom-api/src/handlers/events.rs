@@ -132,6 +132,14 @@ pub fn routes() -> Router<AppState> {
             );
     }
 
+    // The stable spec path for this endpoint is the `v1` one
+    // (`GET /_matrix/client/v1/rooms/{roomId}/timestamp_to_event`); the `v3`
+    // and `r0` paths above are kept for backwards compatibility.
+    router = router.route(
+        "/_matrix/client/v1/rooms/{roomId}/timestamp_to_event",
+        get(timestamp_to_event),
+    );
+
     router
 }
 
@@ -205,6 +213,10 @@ async fn send_event(
         hashes: None,
         signatures: None,
     };
+
+    // Authorise the event against the room's current state (power levels,
+    // membership, join rules, ...).
+    crate::handlers::util::authorize_event(storage, &room_id, &event).await?;
 
     storage.store_event(&event).await.map_err(|e| {
         // If storage rejects the event (e.g. invalid content for SurrealDB),
@@ -701,13 +713,15 @@ async fn do_set_state(
     }
 
     // Check power levels — user must have sufficient PL to send this state event.
-    // Exception: users can always update their own m.room.member event (profile changes).
-    let is_own_member_event = event_type == et::MEMBER && state_key == sender;
+    // Exception: membership events are governed by the membership rules
+    // (join rules, ban list, kick/ban/invite power levels) rather than by
+    // `state_default`; the shared authorisation rules check them below.
+    //
     // Per spec: when state_key starts with @ and matches sender, the user only
     // needs users_default (typically 0) rather than state_default (typically 50).
     let is_own_state_key = state_key == sender;
 
-    if !is_own_member_event {
+    if event_type != et::MEMBER {
         let power_levels = storage
             .get_state_event(room_id, et::POWER_LEVELS, "")
             .await
@@ -859,6 +873,11 @@ async fn do_set_state(
         hashes: None,
         signatures: None,
     };
+
+    // Authorise the event against the room's current state.  This covers
+    // power levels (including changes to `m.room.power_levels` itself),
+    // membership transitions, join rules and `events_default`.
+    crate::handlers::util::authorize_event(storage, room_id, &event).await?;
 
     storage
         .store_event(&event)

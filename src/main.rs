@@ -495,7 +495,11 @@ async fn main() -> Result<()> {
 
     let app = maelstrom_api::router::build(state)
         .merge(federation_router)
-        .merge(admin_router);
+        .merge(admin_router)
+        // Applied at the outermost level so that *every* route (client-server,
+        // server-server and admin) answers a wrong HTTP method with a JSON
+        // `M_UNRECOGNIZED` body instead of axum's empty 405.
+        .method_not_allowed_fallback(maelstrom_api::router::method_not_allowed);
 
     // Start optional TLS listener for federation (port 8448)
     if let (Some(fed_addr), Some(cert_path), Some(key_path)) = (

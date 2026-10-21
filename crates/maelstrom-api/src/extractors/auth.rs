@@ -14,7 +14,7 @@
 //! Axum returns a `401 M_UNKNOWN_TOKEN` or `401 M_MISSING_TOKEN` error
 //! directly.
 
-use axum::extract::FromRequestParts;
+use axum::extract::{FromRequestParts, OptionalFromRequestParts};
 use http::request::Parts;
 use maelstrom_core::matrix::error::MatrixError;
 use maelstrom_core::matrix::id::{DeviceId, UserId};
@@ -91,6 +91,26 @@ impl AuthenticatedUser {
             }
         }
         map
+    }
+}
+
+impl OptionalFromRequestParts<AppState> for AuthenticatedUser {
+    type Rejection = MatrixError;
+
+    /// Optional authentication: a request without a valid token yields
+    /// `None` instead of an error.
+    ///
+    /// This is used by the endpoints that the spec allows to be called
+    /// anonymously (e.g. `GET /_matrix/client/v1/room_summary/{roomIdOrAlias}`),
+    /// where the response differs slightly for authenticated callers.
+    async fn from_request_parts(
+        parts: &mut Parts,
+        state: &AppState,
+    ) -> Result<Option<Self>, Self::Rejection> {
+        match <Self as FromRequestParts<AppState>>::from_request_parts(parts, state).await {
+            Ok(user) => Ok(Some(user)),
+            Err(_) => Ok(None),
+        }
     }
 }
 

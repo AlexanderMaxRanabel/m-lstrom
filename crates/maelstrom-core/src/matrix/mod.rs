@@ -12,6 +12,8 @@
 //!   ┌─────────────────────────┐
 //!   │  state   (resolution)   │  ← decides which events "win"
 //!   ├─────────────────────────┤
+//!   │  auth_rules (permissions)│ ← decides which events are allowed
+//!   ├─────────────────────────┤
 //!   │  signing (ed25519)      │  ← signs & verifies events / federation requests
 //!   ├─────────────────────────┤
 //!   │  event   (Pdu)          │  ← the core persistent event type
@@ -68,6 +70,7 @@
 //!   are correctness-critical. Owning the code means we can audit and
 //!   optimize it without fighting an upstream API.
 
+pub mod auth_rules;
 pub mod content;
 pub mod edu;
 pub mod ephemeral;

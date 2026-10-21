@@ -49,7 +49,7 @@ use axum::{Json, Router};
 use maelstrom_core::matrix::error::MatrixError;
 use maelstrom_core::matrix::id::server_name_from_sigil_id;
 
-use crate::extractors::{AuthenticatedUser, storage_error};
+use crate::extractors::{AuthenticatedUser, MatrixJson, storage_error};
 use crate::state::AppState;
 
 pub fn routes() -> Router<AppState> {
@@ -94,7 +94,7 @@ pub fn routes() -> Router<AppState> {
 async fn keys_upload(
     State(state): State<AppState>,
     auth: AuthenticatedUser,
-    axum::Json(body): axum::Json<serde_json::Value>,
+    MatrixJson(body): MatrixJson<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let storage = state.storage();
     let user_id = auth.user_id.to_string();
@@ -214,7 +214,7 @@ async fn keys_upload(
 async fn keys_query(
     State(state): State<AppState>,
     _auth: AuthenticatedUser,
-    axum::Json(body): axum::Json<serde_json::Value>,
+    MatrixJson(body): MatrixJson<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let storage = state.storage();
 
@@ -391,7 +391,7 @@ async fn keys_query(
 async fn keys_claim(
     State(state): State<AppState>,
     _auth: AuthenticatedUser,
-    axum::Json(body): axum::Json<serde_json::Value>,
+    MatrixJson(body): MatrixJson<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let storage = state.storage();
 
@@ -467,7 +467,7 @@ async fn keys_changes(
 async fn keys_device_signing_upload(
     State(state): State<AppState>,
     auth: AuthenticatedUser,
-    axum::Json(body): axum::Json<serde_json::Value>,
+    MatrixJson(body): MatrixJson<serde_json::Value>,
 ) -> Result<(http::StatusCode, Json<serde_json::Value>), MatrixError> {
     // Require UIA
     let auth_ok = body
@@ -544,7 +544,7 @@ async fn keys_signatures_upload(_auth: AuthenticatedUser) -> Json<serde_json::Va
 async fn create_key_backup(
     State(state): State<AppState>,
     auth: AuthenticatedUser,
-    axum::Json(body): axum::Json<serde_json::Value>,
+    MatrixJson(body): MatrixJson<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let user_id = auth.user_id.to_string();
 
@@ -648,7 +648,7 @@ async fn put_room_key(
     State(state): State<AppState>,
     auth: AuthenticatedUser,
     axum::extract::Path((room_id, session_id)): axum::extract::Path<(String, String)>,
-    axum::Json(body): axum::Json<serde_json::Value>,
+    MatrixJson(body): MatrixJson<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let user_id = auth.user_id.to_string();
 
@@ -752,7 +752,7 @@ async fn put_room_keys(
     State(_state): State<AppState>,
     _auth: AuthenticatedUser,
     axum::extract::Path(_room_id): axum::extract::Path<String>,
-    axum::Json(_body): axum::Json<serde_json::Value>,
+    MatrixJson(_body): MatrixJson<serde_json::Value>,
 ) -> Json<serde_json::Value> {
     Json(serde_json::json!({"count": 0, "etag": "0"}))
 }
@@ -768,7 +768,7 @@ async fn get_room_keys(
 /// PUT /_matrix/client/v3/room_keys/keys
 async fn put_all_room_keys(
     _auth: AuthenticatedUser,
-    axum::Json(_body): axum::Json<serde_json::Value>,
+    MatrixJson(_body): MatrixJson<serde_json::Value>,
 ) -> Json<serde_json::Value> {
     Json(serde_json::json!({"count": 0, "etag": "0"}))
 }

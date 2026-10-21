@@ -14,6 +14,8 @@
 //! - [`MatrixJson`] -- parses a JSON request body and returns Matrix-spec
 //!   error codes (`M_NOT_JSON`, `M_BAD_JSON`) on failure, instead of Axum's
 //!   default plain-text error.
+//! - [`OptionalMatrixJson`] -- like `MatrixJson`, but an empty body is
+//!   accepted and yields `None` instead of an error.
 //!
 //! It also exposes helper functions ([`storage_error`] and [`media_error`])
 //! that map backend errors to Matrix-spec HTTP error responses.
@@ -22,7 +24,7 @@ pub mod auth;
 pub mod json;
 
 pub use auth::AuthenticatedUser;
-pub use json::MatrixJson;
+pub use json::{MatrixJson, OptionalMatrixJson};
 
 use maelstrom_core::matrix::error::{ErrorCode, MatrixError};
 use maelstrom_media::client::MediaError;

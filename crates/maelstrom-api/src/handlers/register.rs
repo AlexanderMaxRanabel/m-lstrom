@@ -315,7 +315,7 @@ struct AdminRegisterRequest {
 
 async fn admin_register(
     State(state): State<AppState>,
-    axum::Json(body): axum::Json<AdminRegisterRequest>,
+    MatrixJson(body): MatrixJson<AdminRegisterRequest>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let username = body.username.to_lowercase();
     validate_username(&username)?;

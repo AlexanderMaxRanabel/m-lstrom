@@ -583,6 +583,17 @@ async fn do_join(
         serde_json::json!({ "membership": Membership::Join.as_str() })
     };
 
+    // Authorise the join: the join rules, the ban list and the user's own
+    // membership state decide whether the user may join.
+    authorize_member_event(
+        storage,
+        room_id,
+        &sender,
+        &sender,
+        Membership::Join.as_str(),
+    )
+    .await?;
+
     // Create m.room.member event
     store_state_event(
         storage,
@@ -1051,6 +1062,16 @@ async fn leave_room(
         }
     }
 
+    // Authorise the leave: a user may always leave a room they are in.
+    authorize_member_event(
+        storage,
+        &room_id,
+        &sender,
+        &sender,
+        Membership::Leave.as_str(),
+    )
+    .await?;
+
     // Create local m.room.member leave event
     store_state_event(
         storage,
@@ -1120,10 +1141,20 @@ async fn invite_to_room(
             m if m == Membership::Invite.as_str() => {
                 return Err(MatrixError::forbidden("User is already invited"));
             }
-            // ban is allowed — spec permits unban-via-invite
             _ => {}
         }
     }
+
+    // Authorise the invite: the sender must be joined (checked above) and
+    // have the `invite` power level; the target must not be banned.
+    authorize_member_event(
+        storage,
+        &room_id,
+        &sender,
+        &body.user_id,
+        Membership::Invite.as_str(),
+    )
+    .await?;
 
     // Check server ACL for the invited user's server
     let target_server = server_name_from_sigil_id(&body.user_id);
@@ -1242,7 +1273,41 @@ async fn joined_rooms(
 
 // -- POST /rooms/{roomId}/kick --
 
-/// Shared request body for kick, ban, and unban operations.
+/// Authorise a membership transition (`join` / `invite` / `leave` / `ban`)
+///
+/// against the room's current state before it is applied.
+///
+/// This applies the Matrix authorisation rules, so e.g. only a user with
+/// sufficient power level may kick, ban or invite.
+async fn authorize_member_event(
+    storage: &dyn maelstrom_storage::traits::Storage,
+    room_id: &str,
+    sender: &str,
+    target: &str,
+    membership: &str,
+) -> Result<(), MatrixError> {
+    let event = Pdu {
+        event_id: generate_event_id(),
+        room_id: room_id.to_string(),
+        sender: sender.to_string(),
+        event_type: et::MEMBER.to_string(),
+        state_key: Some(target.to_string()),
+        content: serde_json::json!({ "membership": membership }),
+        origin_server_ts: timestamp_ms(),
+        unsigned: None,
+        stream_position: 0,
+        origin: None,
+        auth_events: None,
+        prev_events: None,
+        depth: None,
+        hashes: None,
+        signatures: None,
+    };
+
+    crate::handlers::util::authorize_event(storage, room_id, &event).await
+}
+
+/// Request body for kick, ban, and unban operations.
 ///
 /// All three operations target a `user_id` and optionally include a human-
 /// readable `reason` that is stored in the resulting `m.room.member` event.
@@ -1286,6 +1351,17 @@ async fn kick_user(
     if let Some(reason) = &body.reason {
         content["reason"] = serde_json::Value::String(reason.clone());
     }
+
+    // Authorise the kick: the sender needs the `kick` power level and must be
+    // above the target's power level.
+    authorize_member_event(
+        storage,
+        &room_id,
+        &sender,
+        &body.user_id,
+        Membership::Leave.as_str(),
+    )
+    .await?;
 
     // Create m.room.member leave event for the target
     store_state_event(
@@ -1336,6 +1412,17 @@ async fn ban_user(
     if let Some(reason) = &body.reason {
         content["reason"] = serde_json::Value::String(reason.clone());
     }
+
+    // Authorise the ban: the sender needs the `ban` power level and must be
+    // above the target's power level.
+    authorize_member_event(
+        storage,
+        &room_id,
+        &sender,
+        &body.user_id,
+        Membership::Ban.as_str(),
+    )
+    .await?;
 
     // Create m.room.member ban event for the target
     store_state_event(
@@ -1399,6 +1486,17 @@ async fn unban_user(
     if let Some(reason) = &body.reason {
         content["reason"] = serde_json::Value::String(reason.clone());
     }
+
+    // Authorise the unban: unbanning requires the `ban` power level and a
+    // power level above the target's.
+    authorize_member_event(
+        storage,
+        &room_id,
+        &sender,
+        &body.user_id,
+        Membership::Leave.as_str(),
+    )
+    .await?;
 
     // Create m.room.member leave event for the target
     store_state_event(

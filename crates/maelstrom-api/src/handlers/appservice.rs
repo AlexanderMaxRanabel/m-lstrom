@@ -1,16 +1,7 @@
 //! Application Service API endpoints.
 //!
-//! Implements both admin endpoints for managing AS registrations and
-//! the third-party protocol lookup endpoints that clients use to
+//! Implements the third-party protocol lookup endpoints that clients use to
 //! discover bridged networks.
-//!
-//! # Admin endpoints (Maelstrom-specific)
-//!
-//! | Method | Path | Description |
-//! |--------|------|-------------|
-//! | `POST`   | `/_maelstrom/admin/v1/appservice`       | Register an AS from JSON |
-//! | `GET`    | `/_maelstrom/admin/v1/appservices`       | List registered ASes |
-//! | `DELETE` | `/_maelstrom/admin/v1/appservice/{asId}` | Unregister an AS |
 //!
 //! # Third-party protocol endpoints (Matrix spec)
 //!
@@ -23,6 +14,13 @@
 //! | `GET` | `/_matrix/client/v3/thirdparty/location`             | Search all locations |
 //! | `GET` | `/_matrix/client/v3/thirdparty/user`                 | Search all users |
 //!
+//! # Admin endpoints (Maelstrom-specific)
+//!
+//! The admin endpoints for registering and removing application services
+//! (`POST/GET/DELETE /_maelstrom/admin/v1/appservice[s]`) live in the
+//! **admin** router (`maelstrom-admin`), where every route requires admin
+//! credentials.  See `crates/maelstrom-admin/src/handlers/appservice.rs`.
+//!
 //! # Event push
 //!
 //! The [`notify_appservices`] function checks whether a newly stored event
@@ -32,11 +30,11 @@
 //! would use a background queue.
 
 use axum::extract::{Path, State};
-use axum::routing::{delete, get, post};
+use axum::routing::get;
 use axum::{Json, Router};
 use maelstrom_core::matrix::error::MatrixError;
 use maelstrom_core::matrix::event::Pdu;
-use maelstrom_storage::traits::{AppServiceRecord, Storage};
+use maelstrom_storage::traits::Storage;
 use serde_json::Value;
 
 use crate::state::AppState;
@@ -44,13 +42,6 @@ use crate::state::AppState;
 /// Build the router for application service endpoints.
 pub fn routes() -> Router<AppState> {
     Router::new()
-        // Admin endpoints
-        .route("/_maelstrom/admin/v1/appservice", post(register_appservice))
-        .route("/_maelstrom/admin/v1/appservices", get(list_appservices))
-        .route(
-            "/_maelstrom/admin/v1/appservice/{asId}",
-            delete(delete_appservice),
-        )
         // Third-party protocol endpoints
         .route(
             "/_matrix/client/v3/thirdparty/protocols",
@@ -70,55 +61,6 @@ pub fn routes() -> Router<AppState> {
         )
         .route("/_matrix/client/v3/thirdparty/location", get(get_locations))
         .route("/_matrix/client/v3/thirdparty/user", get(get_users))
-}
-
-// ---------------------------------------------------------------------------
-// Admin endpoints
-// ---------------------------------------------------------------------------
-
-/// Register a new application service.
-///
-/// Accepts a JSON body matching [`AppServiceRecord`].  The `id` field must
-/// be unique across all registered ASes.
-async fn register_appservice(
-    State(state): State<AppState>,
-    Json(record): Json<AppServiceRecord>,
-) -> Result<Json<Value>, MatrixError> {
-    state
-        .storage()
-        .register_appservice(&record)
-        .await
-        .map_err(|e| {
-            tracing::error!("Failed to register appservice: {e}");
-            MatrixError::unknown(format!("Failed to register appservice: {e}"))
-        })?;
-
-    Ok(Json(serde_json::json!({ "id": record.id })))
-}
-
-/// List all registered application services.
-async fn list_appservices(State(state): State<AppState>) -> Result<Json<Value>, MatrixError> {
-    let appservices = state
-        .storage()
-        .list_appservices()
-        .await
-        .map_err(|e| MatrixError::unknown(format!("Failed to list appservices: {e}")))?;
-
-    Ok(Json(serde_json::json!({ "appservices": appservices })))
-}
-
-/// Unregister an application service by ID.
-async fn delete_appservice(
-    State(state): State<AppState>,
-    Path(as_id): Path<String>,
-) -> Result<Json<Value>, MatrixError> {
-    state
-        .storage()
-        .delete_appservice(&as_id)
-        .await
-        .map_err(|e| MatrixError::unknown(format!("Failed to delete appservice: {e}")))?;
-
-    Ok(Json(serde_json::json!({})))
 }
 
 // ---------------------------------------------------------------------------

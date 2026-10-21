@@ -53,6 +53,7 @@ pub mod receipts;
 pub mod register;
 pub mod relations;
 pub mod reporting;
+pub mod room_summary;
 pub mod rooms;
 pub mod search;
 pub mod spaces;

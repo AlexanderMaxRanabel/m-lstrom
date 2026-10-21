@@ -36,6 +36,7 @@ pub fn build(state: AdminState) -> Router {
         .merge(handlers::federation::routes())
         .merge(handlers::server::routes())
         .merge(handlers::reports::routes())
+        .merge(handlers::appservice::routes())
         // SSR dashboard pages
         .merge(handlers::dashboard::routes());
 

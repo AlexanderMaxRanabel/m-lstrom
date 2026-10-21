@@ -11,7 +11,9 @@
 //! - [`federation`] -- federation signing-key statistics.
 //! - [`server`]    -- server info, detailed health check, Prometheus metrics stub.
 //! - [`reports`]   -- content report listing (placeholder for moderation queue).
+//! - [`appservice`] -- application service (bridge) registration management.
 
+pub mod appservice;
 pub mod dashboard;
 pub mod federation;
 pub mod media;

@@ -32,7 +32,7 @@ use axum::{Json, Router};
 use maelstrom_core::matrix::error::MatrixError;
 use maelstrom_core::matrix::id::{UserId, server_name_from_sigil_id};
 
-use crate::extractors::{AuthenticatedUser, storage_error};
+use crate::extractors::{AuthenticatedUser, MatrixJson, storage_error};
 use crate::state::AppState;
 
 pub fn routes() -> Router<AppState> {
@@ -49,7 +49,7 @@ async fn send_to_device(
     State(state): State<AppState>,
     auth: AuthenticatedUser,
     Path((event_type, txn_id)): Path<(String, String)>,
-    axum::Json(body): axum::Json<serde_json::Value>,
+    MatrixJson(body): MatrixJson<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, MatrixError> {
     let storage = state.storage();
     let sender = auth.user_id.to_string();

@@ -144,9 +144,59 @@ impl MatrixError {
     /// **400 / M_UNRECOGNIZED** — the endpoint exists but the request
     /// contains unrecognized parameters or query arguments.
     ///
-    /// Not to be confused with a plain 404 for unknown endpoints.
+    /// Not to be confused with [`MatrixError::unrecognized_endpoint`], which is
+    /// used for paths that do not exist at all (404).
     pub fn unrecognized(msg: impl Into<String>) -> Self {
         Self::new(StatusCode::BAD_REQUEST, ErrorCode::Unrecognized, msg)
+    }
+
+    /// **404 / M_UNRECOGNIZED** — the requested endpoint does not exist.
+    ///
+    /// The Matrix spec requires unknown paths to be answered with a JSON
+    /// error body carrying `M_UNRECOGNIZED` rather than an empty 404.
+    pub fn unrecognized_endpoint(msg: impl Into<String>) -> Self {
+        Self::new(StatusCode::NOT_FOUND, ErrorCode::Unrecognized, msg)
+    }
+
+    /// **405 / M_UNRECOGNIZED** — the endpoint exists, but not for the HTTP
+    /// method that was used.
+    ///
+    /// Like [`MatrixError::unrecognized_endpoint`], the body carries
+    /// `M_UNRECOGNIZED` as required by the spec.
+    pub fn method_not_allowed(msg: impl Into<String>) -> Self {
+        Self::new(
+            StatusCode::METHOD_NOT_ALLOWED,
+            ErrorCode::Unrecognized,
+            msg,
+        )
+    }
+
+    /// **403 / M_USER_LIMIT_EXCEEDED** — the server's user limit has been
+    /// reached, so no new accounts can be registered.
+    pub fn user_limit_exceeded() -> Self {
+        Self::new(
+            StatusCode::FORBIDDEN,
+            ErrorCode::UserLimitExceeded,
+            "User limit exceeded",
+        )
+    }
+
+    /// **403 / M_USER_LOCKED** — the user's account has been locked.
+    pub fn user_locked() -> Self {
+        Self::new(
+            StatusCode::FORBIDDEN,
+            ErrorCode::UserLocked,
+            "User account is locked",
+        )
+    }
+
+    /// **403 / M_USER_SUSPENDED** — the user's account has been suspended.
+    pub fn user_suspended() -> Self {
+        Self::new(
+            StatusCode::FORBIDDEN,
+            ErrorCode::UserSuspended,
+            "User account is suspended",
+        )
     }
 
     /// **400 / M_USER_IN_USE** — registration failed because the requested
@@ -264,6 +314,15 @@ pub enum ErrorCode {
     /// The user's account has been deactivated and can no longer be used.
     #[serde(rename = "M_USER_DEACTIVATED")]
     UserDeactivated,
+    /// The server has reached its configured limit on the number of users.
+    #[serde(rename = "M_USER_LIMIT_EXCEEDED")]
+    UserLimitExceeded,
+    /// The user's account is locked (e.g. by an administrator).
+    #[serde(rename = "M_USER_LOCKED")]
+    UserLocked,
+    /// The user's account is suspended (e.g. by an administrator).
+    #[serde(rename = "M_USER_SUSPENDED")]
+    UserSuspended,
     /// Registration failed: the desired user ID is already taken.
     #[serde(rename = "M_USER_IN_USE")]
     UserInUse,

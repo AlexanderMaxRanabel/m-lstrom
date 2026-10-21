@@ -4,6 +4,8 @@ use tower_http::cors::CorsLayer;
 use tower_http::decompression::RequestDecompressionLayer;
 use tower_http::trace::TraceLayer;
 
+use maelstrom_core::matrix::error::MatrixError;
+
 use crate::handlers;
 use crate::state::AppState;
 
@@ -34,7 +36,14 @@ pub fn build(state: AppState) -> Router {
         .merge(handlers::spaces::routes())
         .merge(handlers::knock::routes())
         .merge(handlers::reporting::routes())
-        .merge(handlers::appservice::routes());
+        .merge(handlers::room_summary::routes())
+        .merge(handlers::appservice::routes())
+        // Unknown paths must be answered with a JSON `M_UNRECOGNIZED` body
+        // rather than axum's empty 404 (spec requirement, checked by
+        // Complement's `TestUnknownEndpoints`).
+        .fallback(unrecognized_endpoint)
+        // Likewise for a known path used with an unsupported HTTP method.
+        .method_not_allowed_fallback(method_not_allowed);
 
     Router::new()
         .merge(client_api)
@@ -46,4 +55,17 @@ pub fn build(state: AppState) -> Router {
         .layer(TraceLayer::new_for_http())
         .layer(CorsLayer::permissive())
         .with_state(state)
+}
+
+/// Fallback handler for unknown paths: **404 / M_UNRECOGNIZED**.
+///
+/// The Matrix spec requires every error response to carry a JSON body with an
+/// `errcode`; axum's built-in 404 has an empty body, so we install our own.
+pub async fn unrecognized_endpoint() -> MatrixError {
+    MatrixError::unrecognized_endpoint("Unrecognized request")
+}
+
+/// Fallback handler for unsupported HTTP methods: **405 / M_UNRECOGNIZED**.
+pub async fn method_not_allowed() -> MatrixError {
+    MatrixError::method_not_allowed("Unrecognized request")
 }
