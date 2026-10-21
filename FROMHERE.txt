@@ -1,0 +1,152 @@
+================================================================================
+FROMHERE.txt — Maelstrom → full Matrix v1.x compliance
+Read this first, then docs/compliance/ROADMAP.md
+================================================================================
+
+WHO YOU ARE
+  An agent or engineer picking up Maelstrom (Rust Matrix homeserver, /root/m-lstrom)
+  with no prior context. Your job: take the server from ~66% Complement pass rate
+  to FULL conformance with the stable Matrix specification (v1.19).
+
+STATE OF THE REPO
+  Branch master, 1 unpushed commit (4ef9575) containing the compliance analysis.
+  Working tree clean. No source code has been changed by the analysis work.
+  Read this commit's message for a summary; the full detail is in the two docs
+  named below.
+
+THE DOCS (do not re-derive their contents)
+  COMPLIANCE.md                  Analysis: what "Matrix 1 full compliance" means
+                                 (4 gates), measured current state, gap tables.
+  docs/compliance/ROADMAP.md     THE PLAN. Milestones M0-M7, per-task checkboxes,
+                                 file:line refs, spec anchors, the Complement test
+                                 each task unblocks, agent split. Work from this.
+  docs/compliance/behavior-audit.md
+                                 59 code-traced findings (10 blocker / 31 major /
+                                 18 minor) across sync, E2EE, state+auth rules,
+                                 media, push rules, error semantics. Finding numbers
+                                 in ROADMAP.md refer to this file's table.
+  docs/compliance/endpoint-gap-v1.19.txt
+                                 Machine diff: 56 stable endpoints missing, 6 with
+                                 the wrong HTTP method.
+  vendor/README.md               Vendored matrix-spec v1.19 + Complement archives
+                                 (offline, no network needed).
+
+THE FOUR GATES (all must be green for "compliant")
+  G1  Endpoint completeness: 202 stable CS+SS endpoints routed with correct methods.
+      Verify: make compliance-diff   ->  "missing: 0", "method-mismatch: 0"
+  G2  Complement stable suite: go test ./tests/csapi/... -> 0 failures
+  G3  Federation: complement federation tests green AND Maelstrom interops with a
+      real homeserver (Synapse / Dendrite) in both directions
+  G4  Discovery: GET /_matrix/client/versions lists v1.1-v1.19 and an accurate
+      unstable_features map
+
+MEASURED BASELINE
+  Routes registered ................ 206
+  Stable spec endpoints (CS+SS) ... 202
+  Covered .......................... 140   (missing 56, wrong method 6)
+  Stable Complement tests .......... 107 test functions (the G2 gate)
+  Current Complement result ........ 356/539 (66%, includes unstable MSC tests)
+  Unstable features advertised ..... none, although 5 MSCs are implemented
+  Advertised spec version .......... v1.18 (v1.19 is the current stable release)
+
+START HERE — M0, in this order (all small, each unblocks a stable Complement test)
+  1. Router fallbacks — crates/maelstrom-api/src/router.rs
+     No .fallback() / .method_not_allowed_fallback() exists, so unknown paths
+     return an empty-body 404 and wrong methods an empty-body 405. The spec and
+     Complement (tests/csapi/unknown_endpoints_test.go) require
+     {"errcode":"M_UNRECOGNIZED"} with 404 / 405.
+     CAREFUL: M_UNRECOGNIZED currently maps to 400 in
+     crates/maelstrom-core/src/matrix/error.rs:144-150 — fix that in the same
+     change or the fallback will emit the wrong status code.
+  2. Close the auth hole — crates/maelstrom-api/src/handlers/appservice.rs:48-71
+     POST/GET/DELETE /_maelstrom/admin/v1/appservice[s] sit in the CLIENT router
+     with no admin check. Move them to crates/maelstrom-admin or add AdminUser.
+  3. versions.rs — add "v1.19"; UnstableFeatures is an empty struct, it must become
+     serde_json::Map<String, bool> and list the MSCs actually implemented
+     (msc3967, msc3706, msc4102, msc4186, msc3391) or those implementations go.
+  4. Error bodies — 11 handlers use raw axum::Json, so a bad body yields a
+     plain-text 400 instead of M_BAD_JSON. The repo already has the right
+     extractor: crates/maelstrom-api/src/extractors/json.rs (MatrixJson).
+  5. Path aliases that unblock stable tests:
+       GET /_matrix/client/v1/rooms/{roomId}/timestamp_to_event
+         (only the v3 path exists today — handlers/events.rs:129)
+       GET /_matrix/client/v1/room_summary/{roomIdOrAlias}   (does not exist)
+       GET /_matrix/client/v3/pushrules/global/              (does not exist)
+
+THEN THE CRITICAL PATH (M2, M3) — both are security blockers
+  M2 Authorization rules. Maelstrom currently has almost none:
+        - kick/ban/unban have NO power-level check -> any member can ban anyone
+          (handlers/rooms.rs:1256-1427)
+        - a user's own m.room.member event bypasses all checks
+          (handlers/events.rs:705-753)
+        - no m.room.power_levels change rules -> a PL-50 user can rewrite PL to 100
+          (handlers/events.rs:710-753)
+        - invite has no invite-level / target-ban check
+          (handlers/rooms.rs:1093-1204)
+        - events_default never applied to non-state events
+          (handlers/events.rs:148-233)
+      Deliverable: ONE shared room-version-aware auth_rules module, used by both
+      the CS API and the federation receiver.
+  M3 Federation. Locally created events are never signed and carry no
+      prev_events/depth/origin/hashes/signatures (handlers/events.rs:187 and
+      friends) — Pdu::sign() has zero call sites, so real servers reject every
+      outbound PDU. Inbound PDU auth is soft-fail (federation/receiver.rs:496,
+      516, 566) and X-Matrix signature failures are only logged
+      (receiver.rs:177, 214). resolve_state is not state res v2
+      (core/matrix/state.rs:90).
+      Deliverable: one create_event() helper that signs, a real auth check on
+      inbound, and state res v2.
+
+COMMANDS
+  make compliance-vendor    # extract vendored spec + Complement (offline)
+  make compliance-extract   # regenerate docs/compliance/endpoints-v1.19.json
+  make compliance-diff      # G1 gate: regenerate gap report, print coverage line
+  cargo fmt --all && cargo clippy --all-targets --all-features
+  cargo test --all
+  make complement                      # full suite (needs Docker + Go >= 1.22)
+  make complement-filter FILTER=TestSync
+  cd vendor/complement-main && go test -count=1 ./tests/csapi/...    # the G2 gate
+
+RULES OF THE REPO (from VERIFICATION.md and the code)
+  - Tests live in tests/, never inline in source files. One file per area.
+  - cargo fmt + cargo clippy must be clean; CI runs with RUSTFLAGS=-Dwarnings.
+  - cargo test must pass before running Complement.
+  - Always RecordId::new() for SurrealDB record ids. Never type::thing(), never
+    split strings by hand.
+  - Never change the sync timeline limit from 20 — Complement is calibrated to it.
+  - Never change the require_membership fallback — departed users depend on it.
+  - Do not speculatively rewrite working handler behaviour; add new paths, keep the
+    old ones, and add tests.
+  - If you add a Storage trait method, implement it in BOTH storage/surreal and
+    storage/mock, or the mock-based tests break.
+  - Structured logging via tracing, never println!.
+
+ENVIRONMENT GOTCHAS
+  - The box this analysis ran on has a Termux/Android Rust toolchain that cannot
+    link (-llog / -lunwind missing) and has no Docker, so cargo test and
+    Complement CANNOT run there. Build and validate on a normal Linux host or in
+    CI.
+  - Complement needs Docker AND Go >= 1.22. CI currently runs it with
+    continue-on-error: true, so failures are invisible — M7.1 makes it blocking.
+  - The behavioural audit was produced by READING code, not by running the server.
+    Spot-check each Blocker before you implement it (they are all one-line
+    file:line reads, so this is quick).
+  - The 91 "deferred" MSC tests in VERIFICATION.md may not actually be deferred.
+    Re-measure the full suite in M0 before trusting the estimates in ROADMAP.md.
+
+DO NOT
+  - Do not try to reach the unstable MSCs (partial state join, delayed events,
+    sliding sync, OIDC, notifications, async upload, admin API). They are Matrix 2.0
+    and are explicitly out of scope for G1-G4.
+  - Do not copy code from Synapse/tuwunel/Conduit — reference the algorithms only.
+    The architecture (SurrealDB graph storage, Axum, clustering) is different.
+  - Do not change the storage backend or the clustering model.
+  - Do not rewrite the status numbers in README.md / VERIFICATION.md / PROJECT.md by
+    hand — they currently disagree with each other; M0.4 makes one generated page
+    the single source of truth.
+
+WHEN YOU ARE DONE
+  G1-G4 green, cargo fmt/clippy/test clean, and ROADMAP.md checkboxes updated
+  with what was actually done. Then update README.md / VERIFICATION.md /
+  PROJECT.md from the generated status page and cut 1.0.
+================================================================================
